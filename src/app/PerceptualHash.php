@@ -20,24 +20,32 @@ final class PerceptualHash
 
     public function __invoke(string $filename, ?int $sort = SORT_ASC): array
     {
-        $this->calculateDistance($this->hasher->hash($filename));
+        $this->addHashesToCatalog();
 
-        $this->sortCatalogByColumn('distance', $sort);
+        $this->calculateDistanceTo($this->hasher->hash($filename));
+
+        $this->sortCatalogByDistance($sort);
 
         return $this->catalog;
     }
 
-    private function calculateDistance(Hash $testHash): void
+    // @TODO Catalog should contain image path + image hash (due hashes are inmutables)
+    private function addHashesToCatalog()
     {
-        array_map(function ($key, $entry) use ($testHash) {
-            $entryHash = $this->hasher->hash($entry['path']);
-
-            $this->catalog[$key]['distance'] = $this->hasher->distance($testHash, $entryHash);
+        array_map(function ($key, $entry) {
+            $this->catalog[$key]['hash'] = $this->hasher->hash($entry['path'])->toInt();
         }, array_keys($this->catalog), $this->catalog);
     }
 
-    private function sortCatalogByColumn(string $column, ?int $sort = SORT_ASC): void
+    private function calculateDistanceTo(Hash $hash): void
     {
-        array_multisort(array_column($this->catalog, $column), $sort, $this->catalog);
+        array_map(function ($key, $entry) use ($hash) {
+            $this->catalog[$key]['distance'] = $this->hasher->distance($hash, Hash::fromInt($entry['hash']));
+        }, array_keys($this->catalog), $this->catalog);
+    }
+
+    private function sortCatalogByDistance(?int $sort = SORT_ASC): void
+    {
+        array_multisort(array_column($this->catalog, 'distance'), $sort, $this->catalog);
     }
 }
