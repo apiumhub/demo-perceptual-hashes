@@ -46,7 +46,7 @@ module.exports = {
                 <dt>Tests</dt>
 
                 <dd class="grid">
-                    <button @click="search(null)" v-bind:class="{ selected: this.image == null }" style="background-image: url(./img/test-none.jpg)"></button>
+                    <button @click="searchByImage(null)" v-bind:class="{ selected: this.image == null  }" style="background-image: url(./img/test-none.jpg)"></button>
 
                     <button
                         v-for="item in testsuite"
