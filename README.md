@@ -1,20 +1,45 @@
 # Perceptual Hashes (pHashes)
 
-> Demostración de cómo construir un Reverse Image Search con PHP
-
+> Demostración sobre cómo construir un Reverse Image Search basado en p-Hashes y PHP
 
 
 [TOC]
 
-## Introducción
+## Qué son los Perceptual Hashes
 
-TODO
+Para obtener más información sobre los Perceptual Hashes, también llamados p-Hashes, puede consultar la entrada [Introduction to Perceptual Hashes - Measuring similarity](https://apiumhub.com/tech-blog-barcelona/xxxxxxxxxx/) de nuestro blog que trata precisamente de este tema.
 
-![thumb](/home/arc/Projects/perceptual-hashes/screenshot.png)
+## Sobre esta aplicación
 
-### Aprendiendo sobre p-Hashes
+> Esta aplicación es una prueba de concepto que demuestra cómo aplicar p-Hashes para mejorar los procesos de búsqueda de un ecommerce.
+>
+> Debe ser considerada como una PoC a título informativo y-o educativo.
 
-TODO
+### Caso de Uso
+
+Imaginemos el supuesto en el que un usuario quiere comprar unas gafas porque las que actualmente usa están rotas. Debido al paso del tiempo, ni la marca, ni el modelo ni el código de referencia son legibles por lo que al usuario no le quedan más opciones que pasarse horas y horas realizando búsquedas y puede que termine sin encontrar el modelo deseado.
+
+Para el ecommerce esta situación supone un impacto en términos de consumo de recursos ya que implica un número elevado de peticiones para paginar prácticamente todo su catálogo sin apenas conversión.
+
+#### Propuesta
+
+Para mejorar la experiencia de usuario se desarrollará un Reverse Image Search basado en p-Hashes.
+
+#### Expectativas
+
+Con esta funcionalidad el buscador del ecommerce permitirá, además de las funciones básicas, mostrar el catálogo de productos ordenados por similitud a uno determinado.
+
+Así pues, en el supuesto actual, el usuario sacaría una foto de las gafas actuales y la enviaría al servidor. Éste calculará el Hash de dicha imágen y lo compara con los asignados a todas las imágenes del catálogo, pudiendo así definir un grado de similitud a partir del cual excluir aquellos productos que sean totalmente diferentes o bien, que por cuestiones de negocio, que no sean relevantes para el usuario.
+
+De este modo, en el mejor de los casos, el usuario podrá encontrar las gafas que desea en la primera página de resultados o bien, en su defecto, aquellos modelos más parecidos al buscado, mejorando así la experiencia de usuario.
+
+Desde el punto de vista del ecommerce esta propuesta reduce el número de peticiones al servidor y aumenta el grado de conversión al mostrar en la primera página de resultados todos los productos que son similares al buscado.
+
+### Mockup
+
+Dado que desarrollar todo el flujo de principio a fin está fuera del alcance de esta demostración, esta aplicación tendrá mockeado algunos aspectos superficiales y se centrará única y exclusivamente en cubrir de una manera muy simple la mejora del buscador.
+
+![thumb](./screenshot.png)
 
 
 
@@ -24,6 +49,7 @@ TODO
 * [nginx](https://www.nginx.com/) - Servidor web, balanceador de carga avanzado y reverse proxy todo en uno.
 * [PHP-FPM](https://www.php.net/) -  Lenguaje de programación generalista que está especialmente diseñado para el desarrollo web.
 * Make - Utilidad make GNU para mantener grupos de programas.
+* [VueJS](https://vuejs.org/) - Un framework JavaScript progresivo.
 
 ## Requisitos
 
