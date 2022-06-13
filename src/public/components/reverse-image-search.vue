@@ -43,17 +43,18 @@ module.exports = {
             <h2>Reverse Image Search</h2>
 
             <dl>
-                <dt>Tests</dt>
+                <dt>Compare with...</dt>
 
                 <dd class="grid">
-                    <button @click="searchByImage(null)" v-bind:class="{ selected: this.image == null  }" style="background-image: url(./img/test-none.jpg)"></button>
-
                     <button
                         v-for="item in testsuite"
                         @click="searchByImage(item)"
                         v-bind:class="{ selected: image == item }"
                         v-bind:style="{ backgroundImage: 'url(' + item + ')' }"
                     ></button>
+                </dd>
+                <dd>
+                    <button @click="searchByImage(null)" v-bind:class="{ selected: this.image == null  }">Reset</button>
                 </dd>
             </dl>
 
@@ -209,6 +210,17 @@ section.app > aside dl dd.grid {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: start;
+}
+section.app > aside dl button {
+    display: block;
+    border: 2px solid transparent;
+    cursor: pointer;
+    width: 100%;
+    padding: 5px 20px;
+    text-align: center;
+}
+section.app > aside dl button.selected {
+    border: 2px solid var(--highlighted-color-primary);
 }
 section.app > aside dl dd.grid button {
     width: 100px;
