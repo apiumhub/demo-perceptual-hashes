@@ -6,7 +6,8 @@ module.exports = {
     data() {
         return {
             images: null,
-            image: null
+            image: null,
+            previewUrl: null
         }
     },
     mounted () {
@@ -15,16 +16,20 @@ module.exports = {
         });
     },
     methods: {
-        searchByImage(filename) {
-            this.image = filename;
+        handleFileUpload(event){
+            this.image = event.target.files[0];
 
-            axios.get("/search.php", {
-                params: {
-                    image: filename
+            this.previewUrl = URL.createObjectURL(this.image);
+        },
+        submitFile() {
+            let formData = new FormData();
+                formData.append('image', this.image);
+
+            axios.post('/search.php', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
                 }
-            }).then((result) => {
-                this.images = result.data
-            });
+            }).then(result => this.images = result.data);
         }
     }
 }
@@ -43,27 +48,36 @@ module.exports = {
             <h2>Reverse Image Search</h2>
 
             <dl>
-                <dt>Compare with...</dt>
+                <dt>Search by categories</dt>
 
-                <dd class="grid">
-                    <button
-                        v-for="item in testsuite"
-                        @click="searchByImage(item)"
-                        v-bind:class="{ selected: image == item }"
-                        v-bind:style="{ backgroundImage: 'url(' + item + ')' }"
-                    ></button>
-                </dd>
                 <dd>
-                    <button @click="searchByImage(null)" v-bind:class="{ selected: this.image == null  }">Reset</button>
+                    <a><i class="fa-solid fa-circle"></i> Category #1</a>
+                    <a><i class="fa-solid fa-circle"></i> Category #2</a>
                 </dd>
             </dl>
 
             <dl>
-                <dt>Categories</dt>
+                <dt>Search by color</dt>
 
                 <dd>
-                    <a class="selected"><i class="fa-solid fa-circle"></i> Category #1</a>
-                    <a><i class="fa-solid fa-circle"></i> Category #2</a>
+                    <a><i class="fa-solid fa-circle"></i> Red</a>
+                    <a><i class="fa-solid fa-circle"></i> Green</a>
+                    <a><i class="fa-solid fa-circle"></i> Blue</a>
+                    <a><i class="fa-solid fa-circle"></i> Yellow</a>
+                </dd>
+            </dl>
+
+            <dl>
+                <dt>Search by image</dt>
+
+                <dd>
+                    <input type="file" id="image" @change="handleFileUpload($event)" accept="image/png, image/jpeg" />
+
+                    <figure class="preview">
+                        <div v-if="previewUrl" :style="{ backgroundImage: 'url(' + previewUrl + ')' }" />
+                    </figure>
+
+                    <button v-on:click="submitFile()">Submit</button>
                 </dd>
             </dl>
         </aside>
@@ -205,12 +219,6 @@ section.app > aside dl dd a.selected {
 section.app > aside dl dd a:not(.selected):hover {
     color: var(--highlighted-color-secondary);
 }
-section.app > aside dl dd.grid {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: start;
-}
 section.app > aside dl button {
     display: block;
     border: 2px solid transparent;
@@ -218,26 +226,26 @@ section.app > aside dl button {
     width: 100%;
     padding: 5px 20px;
     text-align: center;
+    margin-bottom: 10px;
 }
 section.app > aside dl button.selected {
     border: 2px solid var(--highlighted-color-primary);
 }
-section.app > aside dl dd.grid button {
-    width: 100px;
-    height: 75px;
+section.app > aside dl dd figure.preview {
+    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+section.app > aside dl dd figure.preview div {
+    border: 1px solid var(--highlighted-color-primary);
+    width: 200px;
+    height: 167px;
     display: block;
-    border: 2px solid transparent;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
     border-radius: 10px;
-    cursor: pointer;
-    filter: grayscale(100%);
-    margin: 0 10px 10px 0;
-}
-section.app > aside dl dd.grid button.selected {
-    border: 2px solid var(--highlighted-color-primary);
-    filter: grayscale(0%);
 }
 section.app > main {
     border-top-right-radius: 10px;

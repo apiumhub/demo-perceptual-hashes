@@ -7,9 +7,9 @@ use App\PerceptualHash;
 
 $catalog = (new DirectoryLoader('./img/catalog/*.jpg'))();
 
-if (isset($_GET['image'])) {
+if (isset($_FILES['image']) && is_array($_FILES['image']) && isset($_FILES['image']['error']) && $_FILES['image']['error'] === 0) {
     $catalog = (new PerceptualHash($catalog))(
-        filename: $_GET['image'],
+        filename: $_FILES['image']['tmp_name'],
         sort: SORT_ASC
     );
 }
