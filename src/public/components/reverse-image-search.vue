@@ -232,7 +232,7 @@ section.app > aside dl button.selected {
     border: 2px solid var(--highlighted-color-primary);
 }
 section.app > aside dl dd figure.preview {
-    margin: 10px 0;
+    margin: 5px 0 10px 0;
     display: flex;
     justify-content: center;
     align-items: center;
