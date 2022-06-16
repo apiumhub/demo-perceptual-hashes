@@ -7,7 +7,7 @@ module.exports = {
         return {
             images: null,
             image: null,
-            previewUrl: null
+            imagePreviewUrl: null
         }
     },
     mounted () {
@@ -19,11 +19,17 @@ module.exports = {
         handleFileUpload(event){
             this.image = event.target.files[0];
 
-            this.previewUrl = URL.createObjectURL(this.image);
+            this.imagePreviewUrl = URL.createObjectURL(this.image);
         },
-        submitFile() {
+        submitFile(sendImage) {
             let formData = new FormData();
+
+            if (sendImage) {
                 formData.append('image', this.image);
+            } else {
+                this.image = null;
+                this.imagePreviewUrl = null;
+            }
 
             axios.post('/search.php', formData, {
                 headers: {
@@ -74,10 +80,11 @@ module.exports = {
                     <input type="file" id="image" @change="handleFileUpload($event)" accept="image/png, image/jpeg" />
 
                     <figure class="preview">
-                        <div v-if="previewUrl" :style="{ backgroundImage: 'url(' + previewUrl + ')' }" />
+                        <div v-if="imagePreviewUrl" :style="{ backgroundImage: 'url(' + imagePreviewUrl + ')' }" />
                     </figure>
 
-                    <button v-on:click="submitFile()">Submit</button>
+                    <button v-if="image" v-on:click="submitFile(true)">Submit</button>
+                    <button v-if="image" v-on:click="submitFile(false)">Reset</button>
                 </dd>
             </dl>
         </aside>
