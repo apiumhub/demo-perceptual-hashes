@@ -37,19 +37,19 @@ Desde el punto de vista del ecommerce esta propuesta reduce el número de petici
 
 ### Mockup
 
-Dado que desarrollar todo el flujo de principio a fin está fuera del alcance de esta demostración, esta aplicación tendrá mockeado algunos aspectos superficiales y se centrará única y exclusivamente en cubrir de una manera muy simple la mejora del buscador.
+Para poder mostrar este caso de uso se ha creado un pequeño componente reactivo en Vue que permita hacer las búsquedas y mostrar el resultado de una manera dinámica:
 
 ![thumb](./screenshot.png)
-
 
 
 ## Construído con
 
 * [Docker](https://www.docker.com/) - La manera más rápida de crear aplicaciones en contenedores.
 * [nginx](https://www.nginx.com/) - Servidor web, balanceador de carga avanzado y reverse proxy todo en uno.
-* [PHP-FPM](https://www.php.net/) -  Lenguaje de programación generalista que está especialmente diseñado para el desarrollo web.
-* Make - Utilidad make GNU para mantener grupos de programas.
+* [PHP-FPM](https://www.php.net/) - Lenguaje de programación generalista que está especialmente diseñado para el desarrollo web.
+* [ImageMagick](https://imagemagick.org/) - Software que permite manipular imágenes desde el lado del servidor.
 * [VueJS](https://vuejs.org/) - Un framework JavaScript progresivo.
+* Make - Utilidad make GNU para mantener grupos de programas.
 
 ## Requisitos
 
@@ -84,6 +84,8 @@ La aplicación cuenta con un Makefile que contiene todos los comandos útiles pa
 ```bash
 ~demos/perceptual-hashes$ make up
 ```
+
+> Ahora ya puedes acceder al servicio usando tu navegador favorito desde la URL`http://localhost` 
 
 ### Parando el servicio
 
