@@ -2,9 +2,19 @@
 
 SERVICE_NAME = php-fpm
 
+ifneq (,$(findstring xterm,${TERM}))
+	YELLOW  := $(shell tput -Txterm setaf 3)
+	RESET   := $(shell tput -Txterm sgr0)
+else
+	YELLOW  := ""
+	RESET   := ""
+endif
+
+TARGET_COLOR := $(YELLOW)
+
 up: ## Starts the service
 	@docker-compose up --remove-orphans -d
-	@docker-compose exec ${SERVICE_NAME} composer install
+	@docker-compose exec ${SERVICE_NAME} composer update
 
 down: ## Stops the service
 	@docker-compose down
@@ -24,7 +34,7 @@ bash: ## Opens a Bash terminal with main service
 help:
 	@echo "╔══════════════════════════════════════════════════════════════════════════════╗"
 	@echo "║                                                                              ║"
-	@echo "║                           ${CYAN}.:${RESET} AVAILABLE COMMANDS ${CYAN}:.${RESET}                           ║"
+	@echo "║                           .: AVAILABLE COMMANDS :.                           ║"
 	@echo "║                                                                              ║"
 	@echo "╚══════════════════════════════════════════════════════════════════════════════╝"
 	@echo ""
