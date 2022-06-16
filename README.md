@@ -17,9 +17,9 @@ Para obtener más información sobre los Perceptual Hashes, también llamados p-
 
 ### Caso de Uso
 
-Imaginemos el supuesto en el que un usuario quiere comprar unas gafas porque las que actualmente usa están rotas. Debido al paso del tiempo, ni la marca, ni el modelo ni el código de referencia son legibles por lo que al usuario no le quedan más opciones que pasarse horas y horas realizando búsquedas y puede que termine sin encontrar el modelo deseado.
+Imaginemos el supuesto en el que un usuario quiere comprar unas gafas porque las que actualmente usa están rotas o deterioradas. Debido al paso del tiempo, ni la marca, ni el modelo ni el código de referencia son legibles por lo que al usuario no le quedan más opciones que pasarse horas y horas realizando búsquedas en diferentes plataformas buscando un modelo similar y puede que termine sin encontrar el modelo deseado.
 
-Para el ecommerce esta situación supone un impacto en términos de consumo de recursos ya que implica un número elevado de peticiones para paginar prácticamente todo su catálogo sin apenas conversión.
+Para cualquier ecommerce esta situación supone un impacto en términos de consumo de recursos ya que implica un número elevado de peticiones y, en el peor caso, paginar prácticamente todo su catálogo, sin apenas conversión.
 
 #### Propuesta
 
@@ -27,11 +27,11 @@ Para mejorar la experiencia de usuario se desarrollará un Reverse Image Search 
 
 #### Expectativas
 
-Con esta funcionalidad el buscador del ecommerce permitirá, además de las funciones básicas, mostrar el catálogo de productos ordenados por similitud a uno determinado.
+Con esta funcionalidad el buscador del ecommerce podrá, además de las funciones básicas, mostrar el catálogo de productos ordenados por similitud a un producto determinado.
 
-Así pues, en el supuesto actual, el usuario sacaría una foto de las gafas actuales y la enviaría al servidor. Éste calculará el Hash de dicha imágen y lo compara con los asignados a todas las imágenes del catálogo, pudiendo así definir un grado de similitud a partir del cual excluir aquellos productos que sean totalmente diferentes o bien, que por cuestiones de negocio, que no sean relevantes para el usuario.
+Así pues, en el supuesto actual, el usuario sacaría una foto de las gafas actuales y la enviaría al servidor. Éste calculará el Hash de dicha imágen y lo comparará con el asignado a todas las imágenes del catálogo, pudiendo así definir un grado de similitud a partir del cual excluir aquellos productos que sean totalmente diferentes o bien, que por cuestiones de negocio, excluir aquellos que no sean relevantes para el usuario.
 
-De este modo, en el mejor de los casos, el usuario podrá encontrar las gafas que desea en la primera página de resultados o bien, en su defecto, aquellos modelos más parecidos al buscado, mejorando así la experiencia de usuario.
+De este modo, en el mejor de los casos, el usuario podrá encontrar las gafas que desea en la primera página de resultados o bien, en su defecto, aquellos modelos más parecidos al buscado en la primera página, mejorando así la experiencia de usuario. 
 
 Desde el punto de vista del ecommerce esta propuesta reduce el número de peticiones al servidor y aumenta el grado de conversión al mostrar en la primera página de resultados todos los productos que son similares al buscado.
 
@@ -66,12 +66,18 @@ Para instalar esta aplicación basta con clonar el proyecto en local:
 
 ```bash
 $ cd ~ && mkdir -p demos/perceptual-hashes
-~demos/perceptual-hashes$ git clone https://github.com/xxxxxxxxx
+~demos/perceptual-hashes$ git clone https://github.com/apiumhub/demo-perceptual-hashes
 ```
 
 ## Uso
 
 La aplicación cuenta con un Makefile que contiene todos los comandos útiles para su puesta en marcha:
+
+### Comandos disponibles
+
+```bash
+~demos/perceptual-hashes$ make
+```
 
 ### Construcción del servicio
 
@@ -85,7 +91,7 @@ La aplicación cuenta con un Makefile que contiene todos los comandos útiles pa
 ~demos/perceptual-hashes$ make up
 ```
 
-> Ahora ya puedes acceder al servicio usando tu navegador favorito desde la URL`http://localhost` 
+> Ahora ya puedes acceder al servicio usando tu navegador favorito desde la URL`http://localhost`
 
 ### Parando el servicio
 
