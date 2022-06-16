@@ -1,5 +1,5 @@
 {
-    "name": "apiumhub/xxxx",
+    "name": "apiumhub/demo-perceptual-hashes",
     "type": "project",
     "license": "MIT",
     "description": "Reverse Image Search based on Perceptual Hashes built with PHP",
