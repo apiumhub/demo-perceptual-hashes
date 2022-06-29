@@ -3,7 +3,7 @@ FROM php:8.1.7-fpm-buster
 
 WORKDIR /code
 
-# Install dependencies via <apt>
+# Install ImageMagick & Imagick via <apt>
 
 RUN apt update && apt upgrade -y && apt install -y \
         git \
