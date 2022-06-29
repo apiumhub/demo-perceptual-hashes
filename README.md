@@ -31,7 +31,7 @@ Con esta funcionalidad el buscador del ecommerce podrá, además de las funcione
 
 Así pues, en el supuesto actual, el usuario sacaría una foto de las gafas actuales y la enviaría al servidor. Éste calculará el Hash de dicha imágen y lo comparará con el asignado a todas las imágenes del catálogo, pudiendo así definir un grado de similitud a partir del cual excluir aquellos productos que sean totalmente diferentes o bien, que por cuestiones de negocio, excluir aquellos que no sean relevantes para el usuario.
 
-De este modo, en el mejor de los casos, el usuario podrá encontrar las gafas que desea en la primera página de resultados o bien, en su defecto, aquellos modelos más parecidos al buscado en la primera página, mejorando así la experiencia de usuario. 
+De este modo, en el mejor de los casos, el usuario podrá encontrar las gafas que desea en la primera página de resultados o bien, en su defecto, aquellos modelos más parecidos al buscado sin necesidad de paginar, mejorando así la experiencia de usuario.
 
 Desde el punto de vista del ecommerce esta propuesta reduce el número de peticiones al servidor y aumenta el grado de conversión al mostrar en la primera página de resultados todos los productos que son similares al buscado.
 
