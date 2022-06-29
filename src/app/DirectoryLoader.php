@@ -2,18 +2,22 @@
 
 namespace App;
 
+use App\Catalog;
+
 final class DirectoryLoader
 {
     public function __construct(
-        private string $pattern
+        private ?string $pattern = ''
     ) {}
 
-    public function __invoke(): array
+    public function __invoke(): Catalog
     {
-        return array_map(function ($path) {
-            return [
-                'path' => $path,
-            ];
+        $catalog = new Catalog();
+
+        array_map(function ($path) use ($catalog) {
+            $catalog->add($path);
         }, glob($this->pattern));
+
+        return $catalog;
     }
 }

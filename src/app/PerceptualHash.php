@@ -2,50 +2,50 @@
 
 namespace App;
 
+use App\Catalog;
 use Jenssegers\ImageHash\Hash;
 use Jenssegers\ImageHash\ImageHash;
 use Jenssegers\ImageHash\Implementations\DifferenceHash;
 
 final class PerceptualHash
 {
-    private ImageHash $hasher;
+    public readonly ImageHash $hasher;
 
-    private array $catalog;
+    private Catalog $catalog;
 
-    public function __construct(array $catalog)
+    public function __construct(Catalog $catalog)
     {
         $this->hasher  = new ImageHash(new DifferenceHash());
         $this->catalog = $catalog;
     }
 
-    public function __invoke(string $filename, ?int $sort = SORT_ASC): array
+    public function __invoke(string $filename, ?int $sort = SORT_ASC): Catalog
     {
         $this->addHashesToCatalog();
 
-        $this->calculateDistanceTo($this->hasher->hash($filename));
+        $this->calculateDistanceAgainst($this->hasher->hash($filename));
 
-        $this->sortCatalogByDistance($sort);
-
-        return $this->catalog;
+        return $this->catalog->sortByDistance($sort);
     }
 
     // @TODO Catalog should contain image path + image hash (due hashes are inmutables)
     private function addHashesToCatalog()
     {
         array_map(function ($key, $entry) {
-            $this->catalog[$key]['hash'] = $this->hasher->hash($entry['path'])->toInt();
-        }, array_keys($this->catalog), $this->catalog);
+            $this->catalog->setHash(
+                key: $key,
+                value: $this->hasher->hash($entry['path'])->toInt()
+            );
+        }, array_keys($this->catalog->list), $this->catalog->list);
     }
 
-    private function calculateDistanceTo(Hash $hash): void
+    private function calculateDistanceAgainst(Hash $hash): void
     {
         array_map(function ($key, $entry) use ($hash) {
-            $this->catalog[$key]['distance'] = $this->hasher->distance($hash, Hash::fromInt($entry['hash']));
-        }, array_keys($this->catalog), $this->catalog);
-    }
-
-    private function sortCatalogByDistance(?int $sort = SORT_ASC): void
-    {
-        array_multisort(array_column($this->catalog, 'distance'), $sort, $this->catalog);
+            $this->catalog->setDistance(
+                key: $key,
+                value: $this->hasher->distance($hash, Hash::fromInt($entry['hash']))
+            );
+        }, array_keys($this->catalog->list), $this->catalog->list);
     }
 }

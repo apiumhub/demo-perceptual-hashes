@@ -28,6 +28,12 @@ restart: ## Restarts the service
 logs: ## Exposes logs from service
 	@docker-compose logs ${SERVICE_NAME}
 
+phpunit: ## Runs the PHPUnit test suite
+	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/phpunit"
+
+paratest: ## Runs the PHPUnit test suite in parallel
+	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/paratest --parallel-suite --processes=8"
+
 bash: ## Opens a Bash terminal with main service
 	@docker-compose exec ${SERVICE_NAME} bash
 

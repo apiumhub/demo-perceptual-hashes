@@ -8,9 +8,19 @@
         "php": "^8.0",
         "jenssegers/imagehash": "^0.8.0"
     },
+    "require-dev": {
+        "brianium/paratest": "^6.5",
+        "codedungeon/phpunit-result-printer": "^0.32.0",
+        "phpunit/phpunit": "^9.5"
+    },
     "autoload": {
         "psr-4": {
             "App\\": "app/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "UnitTests\\": "tests/Unit"
         }
     },
     "config": {
