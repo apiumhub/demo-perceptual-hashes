@@ -27,9 +27,9 @@ services:
         volumes:
             - ./src:/code
             - ./usr/local/etc/php-fpm.d/www.conf:/usr/local/etc/php-fpm.d/www.conf:ro
-            - ./usr/share/healthchecks/php-fpm.sh:/usr/share/healthchecks/php-fpm.sh:ro
+            - ./usr/shared/healthchecks/php-fpm.sh:/usr/shared/healthchecks/php-fpm.sh:ro
         healthcheck:
-            test: ["CMD", "/usr/share/healthchecks/php-fpm.sh"]
+            test: ["CMD", "/usr/shared/healthchecks/php-fpm.sh"]
             interval: 1m
             timeout: 3s
             retries: 5
