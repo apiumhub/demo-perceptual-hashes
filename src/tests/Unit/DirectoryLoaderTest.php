@@ -17,7 +17,10 @@ final class DirectoryLoaderTest extends TestCase
     {
         $loader = new DirectoryLoader($pattern);
 
+        $catalog = $loader();
+
         $this->assertInstanceOf(DirectoryLoader::class, $loader);
+        $this->assertInstanceOf(Catalog::class, $catalog);
     }
 
     public function dataProviderPatterns(): array
@@ -59,14 +62,14 @@ final class DirectoryLoaderTest extends TestCase
      * @covers DirectoryLoader
      * @dataProvider dataProviderStructure
      */
-    public function contents_has_proper_structure(string $pattern, int $expected, string $filename): void
+    public function contents_has_proper_structure(string $pattern, int $expectedMatches, string $filename): void
     {
         $loader = new DirectoryLoader($pattern);
 
         $catalog = $loader();
 
         $this->assertInstanceOf(Catalog::class, $catalog);
-        $this->assertCount($expected, $catalog->list);
+        $this->assertCount($expectedMatches, $catalog->list);
         $this->assertArrayHasKey('path', $catalog->list[0]);
         $this->assertStringEndsWith($filename, $catalog->list[0]['path']);
     }

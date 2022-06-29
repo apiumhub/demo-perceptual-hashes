@@ -17,9 +17,11 @@ final class CatalogTest extends TestCase
         $this->assertInstanceOf(Catalog::class, $catalog);
         $this->assertIsArray($catalog->list);
         $this->assertCount(3, $catalog->list);
-        $this->assertArrayHasKey('path', $catalog->list[0]);
-        $this->assertArrayHasKey('path', $catalog->list[1]);
-        $this->assertArrayHasKey('path', $catalog->list[2]);
+
+        foreach ([0 => 'xxx', 1 => 'yyy', 2 => 'zzz'] as $key => $expected) {
+            $this->assertArrayHasKey('path', $catalog->list[$key]);
+            $this->assertEquals($expected, $catalog->list[$key]['path']);
+        }
     }
 
     /**
@@ -29,11 +31,10 @@ final class CatalogTest extends TestCase
      */
     public function can_set_hash(Catalog $catalog): void
     {
-        $this->assertInstanceOf(Catalog::class, $catalog);
-        $this->assertIsArray($catalog->list);
-        $this->assertCount(3, $catalog->list);
-        $this->assertArrayHasKey('hash', $catalog->list[1]);
-        $this->assertEquals(2, $catalog->list[1]['hash']);
+        foreach ([0 => 1, 1 => 2, 2 => 3] as $key => $expected) {
+            $this->assertArrayHasKey('hash', $catalog->list[$key]);
+            $this->assertEquals($expected, $catalog->list[$key]['hash']);
+        }
     }
 
     /**
@@ -43,11 +44,10 @@ final class CatalogTest extends TestCase
      */
     public function can_set_distance(Catalog $catalog): void
     {
-        $this->assertInstanceOf(Catalog::class, $catalog);
-        $this->assertIsArray($catalog->list);
-        $this->assertCount(3, $catalog->list);
-        $this->assertArrayHasKey('distance', $catalog->list[1]);
-        $this->assertEquals(20, $catalog->list[1]['distance']);
+        foreach ([0 => 100, 1 => 200, 2 => 300] as $key => $expected) {
+            $this->assertArrayHasKey('distance', $catalog->list[$key]);
+            $this->assertEquals($expected, $catalog->list[$key]['distance']);
+        }
     }
 
     /**
@@ -59,9 +59,6 @@ final class CatalogTest extends TestCase
     {
         $catalog->sortByDistance(SORT_ASC);
 
-        $this->assertInstanceOf(Catalog::class, $catalog);
-        $this->assertIsArray($catalog->list);
-        $this->assertCount(3, $catalog->list);
         $this->assertLessThanOrEqual($catalog->list[2]['distance'], $catalog->list[0]['distance']);
     }
 
@@ -74,9 +71,6 @@ final class CatalogTest extends TestCase
     {
         $catalog->sortByDistance(SORT_DESC);
 
-        $this->assertInstanceOf(Catalog::class, $catalog);
-        $this->assertIsArray($catalog->list);
-        $this->assertCount(3, $catalog->list);
         $this->assertGreaterThanOrEqual($catalog->list[2]['distance'], $catalog->list[0]['distance']);
     }
 
@@ -85,9 +79,9 @@ final class CatalogTest extends TestCase
         return [
             [
                 (new Catalog())
-                    ->add('xxx')->setHash(0, 1)->setDistance(0, 10)
-                    ->add('yyy')->setHash(1, 2)->setDistance(1, 20)
-                    ->add('zzz')->setHash(2, 3)->setDistance(2, 30)
+                    ->add('xxx')->setHash(0, 1)->setDistance(0, 100)
+                    ->add('yyy')->setHash(1, 2)->setDistance(1, 200)
+                    ->add('zzz')->setHash(2, 3)->setDistance(2, 300)
             ]
         ];
     }
