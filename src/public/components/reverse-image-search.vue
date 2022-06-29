@@ -1,8 +1,5 @@
 <script>
 module.exports = {
-    props: [
-        'testsuite'
-    ],
     data() {
         return {
             images: null,
