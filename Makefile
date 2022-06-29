@@ -32,9 +32,10 @@ bash: ## Opens a Bash terminal with main service
 	@docker-compose exec ${SERVICE_NAME} bash
 
 help:
+	@clear
 	@echo "╔══════════════════════════════════════════════════════════════════════════════╗"
 	@echo "║                                                                              ║"
-	@echo "║                           .: AVAILABLE COMMANDS :.                           ║"
+	@echo "║                           ${TARGET_COLOR}.:${RESET} AVAILABLE COMMANDS ${TARGET_COLOR}:.${RESET}                           ║"
 	@echo "║                                                                              ║"
 	@echo "╚══════════════════════════════════════════════════════════════════════════════╝"
 	@echo ""
