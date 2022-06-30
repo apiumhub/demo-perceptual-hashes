@@ -11,8 +11,10 @@ RUN apt update && apt upgrade -y && apt install -y --fix-missing \
         git \
 		imagemagick libmagickwand-dev --no-install-recommends \
 	&& pecl install imagick \
+    && pecl install pcov \
 	&& docker-php-ext-enable imagick \
-    && docker-php-ext-install zip
+    && docker-php-ext-install zip \
+    && docker-php-ext-enable pcov
 
 # Install cgi-fcgi via <apt-get>
 

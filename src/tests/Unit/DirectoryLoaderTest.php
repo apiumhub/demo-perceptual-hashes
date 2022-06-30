@@ -10,7 +10,10 @@ final class DirectoryLoaderTest extends TestCase
 {
     /**
      * @test
-     * @covers DirectoryLoader
+     * @covers \App\DirectoryLoader::__construct
+     * @covers \App\DirectoryLoader::__invoke
+     * @covers \App\Catalog::__construct
+     * @covers \App\Catalog::add
      * @dataProvider dataProviderPatterns
      */
     public function instanceIsConsistent(string $pattern): void
@@ -34,10 +37,12 @@ final class DirectoryLoaderTest extends TestCase
 
     /**
      * @test
-     * @covers DirectoryLoader
-     * @dataProvider dataProviderContents
+     * @covers \App\DirectoryLoader::__construct
+     * @covers \App\DirectoryLoader::__invoke
+     * @covers \App\Catalog::__construct
+     * @dataProvider dataProviderContentsNoAnyResult
      */
-    public function instanceCanRetrieveFilteredContents(string $pattern, int $expected): void
+    public function instanceCanRetrieveFilteredContentsNoAnyResult(string $pattern, int $expected): void
     {
         $loader = new DirectoryLoader($pattern);
 
@@ -47,19 +52,46 @@ final class DirectoryLoaderTest extends TestCase
         $this->assertCount($expected, $catalog->list);
     }
 
-    public function dataProviderContents(): array
+    public function dataProviderContentsNoAnyResult(): array
     {
         return [
             ['', 0],
-            ['.', 1],
-            ['./.gitignore', 1],
-            ['./*.xml', 1],
         ];
     }
 
     /**
      * @test
-     * @covers DirectoryLoader
+     * @covers \App\DirectoryLoader::__construct
+     * @covers \App\DirectoryLoader::__invoke
+     * @covers \App\Catalog::__construct
+     * @covers \App\Catalog::add
+     * @dataProvider dataProviderContentsMatchedResults
+     */
+    public function instanceCanRetrieveFilteredContentsMatchedResults(string $pattern, int $expected): void
+    {
+        $loader = new DirectoryLoader($pattern);
+
+        $catalog = $loader();
+
+        $this->assertInstanceOf(Catalog::class, $catalog);
+        $this->assertCount($expected, $catalog->list);
+    }
+
+    public function dataProviderContentsMatchedResults(): array
+    {
+        return [
+            ['.', 1],
+            ['./.gitignore', 1],
+            ['./*.lock', 1],
+        ];
+    }
+
+    /**
+     * @test
+     * @covers \App\DirectoryLoader::__construct
+     * @covers \App\DirectoryLoader::__invoke
+     * @covers \App\Catalog::__construct
+     * @covers \App\Catalog::add
      * @dataProvider dataProviderCatalogStructure
      */
     public function instanceReturnsValidCatalog(string $pattern, int $expectedMatches, string $filename): void
@@ -78,7 +110,7 @@ final class DirectoryLoaderTest extends TestCase
     {
         return [
             ['./.gitignore', 1, '.gitignore'],
-            ['./*.xml', 1, 'phpunit.xml'],
+            ['./*.lock', 1, 'composer.lock'],
         ];
     }
 }

@@ -28,10 +28,17 @@
         </testsuite>
     </testsuites>
 
-    <coverage cacheDirectory=".phpunit.cache/code-coverage"
-              processUncoveredFiles="true">
+    <coverage
+        cacheDirectory=".phpunit.cache/code-coverage"
+        disableCodeCoverageIgnore="true"
+        ignoreDeprecatedCodeUnits="true"
+        includeUncoveredFiles="true"
+        pathCoverage="false"
+        processUncoveredFiles="true"
+    >
         <include>
-            <directory suffix=".php">src</directory>
+            <directory suffix=".php">app</directory>
+            <directory suffix=".php">tests</directory>
         </include>
     </coverage>
 </phpunit>

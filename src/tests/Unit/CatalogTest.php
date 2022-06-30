@@ -19,7 +19,11 @@ final class CatalogTest extends TestCase
 
     /**
      * @test
-     * @covers Catalog
+     * @covers \App\Catalog::__construct
+     * @covers \App\Catalog::add
+     * @covers \App\Catalog::setHash
+     * @covers \App\Catalog::setDistance
+     * @covers \App\Catalog::set
      * @dataProvider dataProviderCatalog
      */
     public function instanceIsConsistent(
@@ -40,7 +44,11 @@ final class CatalogTest extends TestCase
 
     /**
      * @test
-     * @covers Catalog
+     * @covers \App\Catalog::__construct
+     * @covers \App\Catalog::add
+     * @covers \App\Catalog::setHash
+     * @covers \App\Catalog::setDistance
+     * @covers \App\Catalog::set
      * @dataProvider dataProviderCatalog
      */
     public function instanceHasValidPathes(
@@ -55,7 +63,11 @@ final class CatalogTest extends TestCase
 
     /**
      * @test
-     * @covers Catalog
+     * @covers \App\Catalog::__construct
+     * @covers \App\Catalog::add
+     * @covers \App\Catalog::setHash
+     * @covers \App\Catalog::setDistance
+     * @covers \App\Catalog::set
      * @dataProvider dataProviderCatalog
      */
     public function instanceHasValidHashes(
@@ -70,7 +82,11 @@ final class CatalogTest extends TestCase
 
     /**
      * @test
-     * @covers Catalog
+     * @covers \App\Catalog::__construct
+     * @covers \App\Catalog::add
+     * @covers \App\Catalog::setHash
+     * @covers \App\Catalog::setDistance
+     * @covers \App\Catalog::set
      * @dataProvider dataProviderCatalog
      */
     public function instanceHashValidDistances(
@@ -85,7 +101,12 @@ final class CatalogTest extends TestCase
 
     /**
      * @test
-     * @covers Catalog
+     * @covers \App\Catalog::__construct
+     * @covers \App\Catalog::add
+     * @covers \App\Catalog::setHash
+     * @covers \App\Catalog::setDistance
+     * @covers \App\Catalog::set
+     * @covers \App\Catalog::sortByDistance
      */
     public function canBeSortedByDistanceAsc(): void
     {
@@ -99,7 +120,12 @@ final class CatalogTest extends TestCase
 
     /**
      * @test
-     * @covers Catalog
+     * @covers \App\Catalog::__construct
+     * @covers \App\Catalog::add
+     * @covers \App\Catalog::setHash
+     * @covers \App\Catalog::setDistance
+     * @covers \App\Catalog::set
+     * @covers \App\Catalog::sortByDistance
      */
     public function canBeSortedByDistanceDesc(): void
     {

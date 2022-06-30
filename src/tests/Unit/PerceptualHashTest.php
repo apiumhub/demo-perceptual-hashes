@@ -11,7 +11,7 @@ final class PerceptualHashTest extends TestCase
 {
     /**
      * @test
-     * @covers PerceptualHash
+     * @covers \App\PerceptualHash::__construct
      * @dataProvider dataProviderCatalogs
      */
     public function instanceIsConsistent(Catalog $catalog): void
@@ -42,7 +42,16 @@ final class PerceptualHashTest extends TestCase
 
     /**
      * @test
-     * @covers PerceptualHash
+     * @covers \App\PerceptualHash::__construct
+     * @covers \App\PerceptualHash::__invoke
+     * @covers \App\PerceptualHash::addHashesToCatalog
+     * @covers \App\PerceptualHash::calculateDistanceAgainst
+     * @covers \App\Catalog::__construct
+     * @covers \App\Catalog::add
+     * @covers \App\Catalog::setHash
+     * @covers \App\Catalog::setDistance
+     * @covers \App\Catalog::sortByDistance
+     * @covers \App\Catalog::set
      * @dataProvider dataProviderCatalogContents
      */
     public function instanceReturnsValidCatalog(
@@ -100,7 +109,16 @@ final class PerceptualHashTest extends TestCase
 
     /**
      * @test
-     * @covers PerceptualHash
+     * @covers \App\PerceptualHash::__construct
+     * @covers \App\PerceptualHash::__invoke
+     * @covers \App\PerceptualHash::addHashesToCatalog
+     * @covers \App\PerceptualHash::calculateDistanceAgainst
+     * @covers \App\Catalog::__construct
+     * @covers \App\Catalog::add
+     * @covers \App\Catalog::setHash
+     * @covers \App\Catalog::setDistance
+     * @covers \App\Catalog::sortByDistance
+     * @covers \App\Catalog::set
      * @dataProvider dataProviderCatalogDistances
      */
     public function catalogCanBeSortedByDistanceAsc(Catalog $catalog): void
@@ -118,7 +136,16 @@ final class PerceptualHashTest extends TestCase
 
     /**
      * @test
-     * @covers PerceptualHash
+     * @covers \App\PerceptualHash::__construct
+     * @covers \App\PerceptualHash::__invoke
+     * @covers \App\PerceptualHash::addHashesToCatalog
+     * @covers \App\PerceptualHash::calculateDistanceAgainst
+     * @covers \App\Catalog::__construct
+     * @covers \App\Catalog::add
+     * @covers \App\Catalog::setHash
+     * @covers \App\Catalog::setDistance
+     * @covers \App\Catalog::sortByDistance
+     * @covers \App\Catalog::set
      * @dataProvider dataProviderCatalogDistances
      */
     public function catalogCanBeSortedByDistanceDesc(Catalog $catalog): void
