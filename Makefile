@@ -44,6 +44,10 @@ phpcs: ## Runs the PHPCodeSniffer tool
 phpcbf: ## Runs the PHPCodeBeautifierAndFixer tool
 	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/phpcbf --standard=PSR12 ./app ./tests"
 
+phpcsfixer: ## Runs the PHP-CS-Fixer tool
+	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/php-cs-fixer fix /code/app --rules=@PSR12"
+	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/php-cs-fixer fix /code/tests --rules=@PSR12"
+
 phpstan: ## Runs the PHPStan tool
 	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/phpstan analyse --level 5 --memory-limit 1G ./app ./tests"
 
