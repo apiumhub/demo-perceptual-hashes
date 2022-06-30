@@ -35,6 +35,9 @@ bash: ## Opens a Bash terminal with main service
 
 # QA
 
+linter: ## Runs the PHP linter tool
+	@docker-compose exec ${SERVICE_NAME} bash -c "find ./app/ ./tests/ -type f -name '*.php' -print0 | xargs -0 -n1 -P4 php -l -n | (! grep -v \"No syntax errors detected\" )"
+
 phpcs: ## Runs the PHPCodeSniffer tool
 	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/phpcs --standard=PSR12 ./app ./tests"
 

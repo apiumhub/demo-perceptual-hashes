@@ -4,11 +4,9 @@ namespace App;
 
 final class Catalog
 {
-    public array $list;
-
-    public function __construct()
-    {
-        $this->list = [];
+    public function __construct(
+        public array $list = []
+    ) {
     }
 
     public function add(string $path): self
