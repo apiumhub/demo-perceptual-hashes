@@ -8,7 +8,8 @@ final class DirectoryLoader
 {
     public function __construct(
         private ?string $pattern = ''
-    ) {}
+    ) {
+    }
 
     public function __invoke(): Catalog
     {

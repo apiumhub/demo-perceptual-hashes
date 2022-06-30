@@ -14,7 +14,7 @@ final class PerceptualHashTest extends TestCase
      * @covers PerceptualHash
      * @dataProvider dataProviderCatalogs
      */
-    public function can_accept_any_catalog(Catalog $catalog): void
+    public function instanceIsConsistent(Catalog $catalog): void
     {
         $sut = new PerceptualHash($catalog);
 
@@ -43,10 +43,14 @@ final class PerceptualHashTest extends TestCase
     /**
      * @test
      * @covers PerceptualHash
-     * @dataProvider dataProviderContents
+     * @dataProvider dataProviderCatalogContents
      */
-    public function can_retrieve_contents(Catalog $catalog, int $expectedHash, int $expectedDistance): void
-    {
+    public function instanceReturnsValidCatalog(
+        Catalog $catalog,
+        string $expectedSuffixPath,
+        int $expectedHash,
+        int $expectedDistance
+    ): void {
         $sut = new PerceptualHash($catalog);
 
         $contents = $sut(
@@ -59,30 +63,35 @@ final class PerceptualHashTest extends TestCase
         $this->assertArrayHasKey('path', $contents->list[0]);
         $this->assertArrayHasKey('hash', $contents->list[0]);
         $this->assertArrayHasKey('distance', $contents->list[0]);
+        $this->assertStringEndsWith($expectedSuffixPath, $catalog->list[0]['path']);
         $this->assertEquals($expectedHash, $contents->list[0]['hash']);
         $this->assertEquals($expectedDistance, $contents->list[0]['distance']);
     }
 
-    public function dataProviderContents(): array
+    public function dataProviderCatalogContents(): array
     {
         return [
             [
                 (new Catalog())->add('./public/img/catalog/4-BOURBO-47O-BKBZ_2.jpg'),
+                '4-BOURBO-47O-BKBZ_2.jpg',
                 878522138624,
                 6,
             ],
             [
                 (new Catalog())->add('./public/img/catalog/4-BONNIE-53O-WHGD_2.jpg'),
+                '4-BONNIE-53O-WHGD_2.jpg',
                 930095300608,
                 7,
             ],
             [
                 (new Catalog())->add('./public/img/catalog/4-BONNIE-53O-BLPG_2.jpg'),
+                '4-BONNIE-53O-BLPG_2.jpg',
                 878555693056,
                 7,
             ],
             [
                 (new Catalog())->add('./public/img/catalog/4-BONNIE-53O-TQGR_2.jpg'),
+                '4-BONNIE-53O-TQGR_2.jpg',
                 612502601728,
                 9,
             ],
@@ -92,9 +101,9 @@ final class PerceptualHashTest extends TestCase
     /**
      * @test
      * @covers PerceptualHash
-     * @dataProvider dataProviderDistances
+     * @dataProvider dataProviderCatalogDistances
      */
-    public function can_sort_asc_by_distance(Catalog $catalog): void
+    public function catalogCanBeSortedByDistanceAsc(Catalog $catalog): void
     {
         $sut = new PerceptualHash($catalog);
 
@@ -110,9 +119,9 @@ final class PerceptualHashTest extends TestCase
     /**
      * @test
      * @covers PerceptualHash
-     * @dataProvider dataProviderDistances
+     * @dataProvider dataProviderCatalogDistances
      */
-    public function can_sort_desc_by_distance(Catalog $catalog): void
+    public function catalogCanBeSortedByDistanceDesc(Catalog $catalog): void
     {
         $sut = new PerceptualHash($catalog);
 
@@ -125,7 +134,7 @@ final class PerceptualHashTest extends TestCase
         $this->assertGreaterThanOrEqual($contents->list[1]['distance'], $contents->list[0]['distance']);
     }
 
-    public function dataProviderDistances(): array
+    public function dataProviderCatalogDistances(): array
     {
         return [
             [

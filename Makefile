@@ -12,6 +12,8 @@ endif
 
 TARGET_COLOR := $(YELLOW)
 
+# DOCKER-RELATED COMMANDS
+
 up: ## Starts the service
 	@docker-compose up --remove-orphans -d
 	@docker-compose exec ${SERVICE_NAME} composer update
@@ -28,14 +30,29 @@ restart: ## Restarts the service
 logs: ## Exposes logs from service
 	@docker-compose logs ${SERVICE_NAME}
 
+bash: ## Opens a Bash terminal with main service
+	@docker-compose exec ${SERVICE_NAME} bash
+
+# QA
+
+phpcs: ## Runs the PHPCodeSniffer tool
+	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/phpcs --standard=PSR12 ./app ./tests"
+
+phpcbf: ## Runs the PHPCodeBeautifierAndFixer tool
+	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/phpcbf --standard=PSR12 ./app ./tests"
+
+phpstan: ## Runs the PHPStan tool
+	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/phpstan analyse --level 5 --memory-limit 1G ./app ./tests"
+
+# TESTING
+
 phpunit: ## Runs the PHPUnit test suite
 	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/phpunit"
 
 paratest: ## Runs the PHPUnit test suite in parallel
 	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/paratest --parallel-suite --processes=8"
 
-bash: ## Opens a Bash terminal with main service
-	@docker-compose exec ${SERVICE_NAME} bash
+# MISCELANEOUS
 
 help:
 	@clear

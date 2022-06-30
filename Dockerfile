@@ -5,11 +5,14 @@ WORKDIR /code
 
 # Install ImageMagick & Imagick via <apt>
 
-RUN apt update && apt upgrade -y && apt install -y \
+RUN apt update && apt upgrade -y && apt install -y --fix-missing \
+        zlib1g-dev \
+        libzip-dev \
         git \
 		imagemagick libmagickwand-dev --no-install-recommends \
 	&& pecl install imagick \
-	&& docker-php-ext-enable imagick
+	&& docker-php-ext-enable imagick \
+    && docker-php-ext-install zip
 
 # Install cgi-fcgi via <apt-get>
 

@@ -13,7 +13,7 @@ final class DirectoryLoaderTest extends TestCase
      * @covers DirectoryLoader
      * @dataProvider dataProviderPatterns
      */
-    public function can_accept_any_pattern(string $pattern): void
+    public function instanceIsConsistent(string $pattern): void
     {
         $loader = new DirectoryLoader($pattern);
 
@@ -37,7 +37,7 @@ final class DirectoryLoaderTest extends TestCase
      * @covers DirectoryLoader
      * @dataProvider dataProviderContents
      */
-    public function can_retrieve_contents(string $pattern, int $expected): void
+    public function instanceCanRetrieveFilteredContents(string $pattern, int $expected): void
     {
         $loader = new DirectoryLoader($pattern);
 
@@ -60,9 +60,9 @@ final class DirectoryLoaderTest extends TestCase
     /**
      * @test
      * @covers DirectoryLoader
-     * @dataProvider dataProviderStructure
+     * @dataProvider dataProviderCatalogStructure
      */
-    public function contents_has_proper_structure(string $pattern, int $expectedMatches, string $filename): void
+    public function instanceReturnsValidCatalog(string $pattern, int $expectedMatches, string $filename): void
     {
         $loader = new DirectoryLoader($pattern);
 
@@ -74,7 +74,7 @@ final class DirectoryLoaderTest extends TestCase
         $this->assertStringEndsWith($filename, $catalog->list[0]['path']);
     }
 
-    public function dataProviderStructure(): array
+    public function dataProviderCatalogStructure(): array
     {
         return [
             ['./.gitignore', 1, '.gitignore'],

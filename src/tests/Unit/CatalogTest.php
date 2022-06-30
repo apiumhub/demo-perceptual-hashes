@@ -7,20 +7,34 @@ use PHPUnit\Framework\TestCase;
 
 final class CatalogTest extends TestCase
 {
+    private Catalog $catalog;
+
+    protected function setUp(): void
+    {
+        $this->catalog = (new Catalog())
+            ->add('xxx')->setHash(0, 1)->setDistance(0, 100)
+            ->add('yyy')->setHash(1, 2)->setDistance(1, 200)
+            ->add('zzz')->setHash(2, 3)->setDistance(2, 300);
+    }
+
     /**
      * @test
      * @covers Catalog
      * @dataProvider dataProviderCatalog
      */
-    public function can_contain_entries(Catalog $catalog): void
-    {
-        $this->assertInstanceOf(Catalog::class, $catalog);
-        $this->assertIsArray($catalog->list);
-        $this->assertCount(3, $catalog->list);
+    public function instanceIsConsistent(
+        array $expectedPaths,
+        array $expectedHashes,
+        array $expectedDistances
+    ): void {
+        $this->assertInstanceOf(Catalog::class, $this->catalog);
+        $this->assertIsArray($this->catalog->list);
+        $this->assertCount(3, $this->catalog->list);
 
-        foreach ([0 => 'xxx', 1 => 'yyy', 2 => 'zzz'] as $key => $expected) {
-            $this->assertArrayHasKey('path', $catalog->list[$key]);
-            $this->assertEquals($expected, $catalog->list[$key]['path']);
+        foreach ($this->catalog->list as $entry) {
+            $this->assertArrayHasKey('path', $entry);
+            $this->assertArrayHasKey('hash', $entry);
+            $this->assertArrayHasKey('distance', $entry);
         }
     }
 
@@ -29,11 +43,13 @@ final class CatalogTest extends TestCase
      * @covers Catalog
      * @dataProvider dataProviderCatalog
      */
-    public function can_set_hash(Catalog $catalog): void
-    {
-        foreach ([0 => 1, 1 => 2, 2 => 3] as $key => $expected) {
-            $this->assertArrayHasKey('hash', $catalog->list[$key]);
-            $this->assertEquals($expected, $catalog->list[$key]['hash']);
+    public function instanceHasValidPathes(
+        array $expectedPaths,
+        array $expectedHashes,
+        array $expectedDistances
+    ): void {
+        foreach ($expectedPaths as $key => $expected) {
+            $this->assertEquals($expected, $this->catalog->list[$key]['path']);
         }
     }
 
@@ -42,11 +58,13 @@ final class CatalogTest extends TestCase
      * @covers Catalog
      * @dataProvider dataProviderCatalog
      */
-    public function can_set_distance(Catalog $catalog): void
-    {
-        foreach ([0 => 100, 1 => 200, 2 => 300] as $key => $expected) {
-            $this->assertArrayHasKey('distance', $catalog->list[$key]);
-            $this->assertEquals($expected, $catalog->list[$key]['distance']);
+    public function instanceHasValidHashes(
+        array $expectedPaths,
+        array $expectedHashes,
+        array $expectedDistances
+    ): void {
+        foreach ($expectedHashes as $key => $expected) {
+            $this->assertEquals($expected, $this->catalog->list[$key]['hash']);
         }
     }
 
@@ -55,34 +73,52 @@ final class CatalogTest extends TestCase
      * @covers Catalog
      * @dataProvider dataProviderCatalog
      */
-    public function can_sort_asc_by_distance(Catalog $catalog): void
-    {
-        $catalog->sortByDistance(SORT_ASC);
-
-        $this->assertLessThanOrEqual($catalog->list[2]['distance'], $catalog->list[0]['distance']);
+    public function instanceHashValidDistances(
+        array $expectedPaths,
+        array $expectedHashes,
+        array $expectedDistances
+    ): void {
+        foreach ($expectedDistances as $key => $expected) {
+            $this->assertEquals($expected, $this->catalog->list[$key]['distance']);
+        }
     }
 
     /**
      * @test
      * @covers Catalog
-     * @dataProvider dataProviderCatalog
      */
-    public function can_sort_desc_by_distance(Catalog $catalog): void
+    public function canBeSortedByDistanceAsc(): void
     {
-        $catalog->sortByDistance(SORT_DESC);
+        $this->catalog->sortByDistance(SORT_ASC);
 
-        $this->assertGreaterThanOrEqual($catalog->list[2]['distance'], $catalog->list[0]['distance']);
+        $this->assertLessThanOrEqual(
+            $this->catalog->list[2]['distance'],
+            $this->catalog->list[0]['distance']
+        );
+    }
+
+    /**
+     * @test
+     * @covers Catalog
+     */
+    public function canBeSortedByDistanceDesc(): void
+    {
+        $this->catalog->sortByDistance(SORT_DESC);
+
+        $this->assertGreaterThanOrEqual(
+            $this->catalog->list[2]['distance'],
+            $this->catalog->list[0]['distance']
+        );
     }
 
     public function dataProviderCatalog(): array
     {
         return [
             [
-                (new Catalog())
-                    ->add('xxx')->setHash(0, 1)->setDistance(0, 100)
-                    ->add('yyy')->setHash(1, 2)->setDistance(1, 200)
-                    ->add('zzz')->setHash(2, 3)->setDistance(2, 300)
-            ]
+                ['xxx', 'yyy', 'zzz'],
+                [1, 2, 3],
+                [100, 200, 300],
+            ],
         ];
     }
 }

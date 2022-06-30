@@ -32,7 +32,9 @@ final class Catalog
 
     public function sortByDistance(?int $sort = SORT_ASC): self
     {
-        array_multisort(array_column($this->list, 'distance'), $sort, $this->list);
+        $distances = array_column($this->list, 'distance');
+
+        array_multisort($distances, $sort, $this->list);
 
         return $this;
     }
