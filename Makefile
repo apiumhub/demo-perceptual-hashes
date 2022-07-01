@@ -29,6 +29,17 @@ bash: CMD=bash 							## Opens a Bash terminal with main service
 build down logs restart up:
 	${DOCKER_COMPOSE} ${CMD}
 
+# COMPOSER-RELATED COMMANDS
+
+composer-install: CMD=composer install --optimize-autoloader							## Runs <composer install>
+composer-update: CMD=composer update --optimize-autoloader --with-all-dependencies		## Runs <composer update>
+composer-require: CMD=composer require --optimize-autoloader --with-all-dependencies	## Runs <composer require>
+composer-remove: CMD=composer remove --optimize-autoloader --with-all-dependencies		## Runs <composer remove>
+composer-dump: CMD=composer dump-auto --optimize 										## Runs <composer dump-auto>
+
+composer-install composer-update composer-require composer-remove composer-dump:
+	${DOCKER_COMPOSE_EXEC} ${CMD} --ignore-platform-reqs --no-scripts --no-plugins --ansi --profile
+
 # ADDITIONAL COMMANDS
 
 qa-linter: CMD=./vendor/bin/parallel-lint -e php -j 10 --colors ./app ./tests
