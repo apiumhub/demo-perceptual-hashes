@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Catalog;
 use Jenssegers\ImageHash\Hash;
 use Jenssegers\ImageHash\ImageHash;
 use Jenssegers\ImageHash\Implementations\DifferenceHash;
@@ -15,7 +14,7 @@ final class PerceptualHash
 
     public function __construct(Catalog $catalog)
     {
-        $this->hasher  = new ImageHash(new DifferenceHash());
+        $this->hasher = new ImageHash(new DifferenceHash());
         $this->catalog = $catalog;
     }
 
@@ -28,7 +27,7 @@ final class PerceptualHash
         return $this->catalog->sortByDistance($sort);
     }
 
-    // @TODO Catalog should contain image path + image hash (due hashes are inmutables)
+    /** @TODO Catalog should contain image path + image hash (due hashes are inmutables) */
     private function addHashesToCatalog()
     {
         array_map(function ($key, $entry) {

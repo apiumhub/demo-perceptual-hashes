@@ -2,8 +2,6 @@
 
 namespace App;
 
-use App\Catalog;
-
 final class DirectoryLoader
 {
     public function __construct(

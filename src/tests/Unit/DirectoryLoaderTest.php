@@ -6,24 +6,27 @@ use App\Catalog;
 use App\DirectoryLoader;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 final class DirectoryLoaderTest extends TestCase
 {
     /**
-     * @test
-     * @covers \App\DirectoryLoader::__construct
-     * @covers \App\DirectoryLoader::__invoke
      * @covers \App\Catalog::__construct
      * @covers \App\Catalog::add
+     * @covers \App\DirectoryLoader::__construct
+     * @covers \App\DirectoryLoader::__invoke
      * @dataProvider dataProviderPatterns
      */
-    public function instanceIsConsistent(string $pattern): void
+    public function testInstanceIsConsistent(string $pattern): void
     {
         $loader = new DirectoryLoader($pattern);
 
         $catalog = $loader();
 
-        $this->assertInstanceOf(DirectoryLoader::class, $loader);
-        $this->assertInstanceOf(Catalog::class, $catalog);
+        static::assertInstanceOf(DirectoryLoader::class, $loader);
+        static::assertInstanceOf(Catalog::class, $catalog);
     }
 
     public function dataProviderPatterns(): array
@@ -36,20 +39,19 @@ final class DirectoryLoaderTest extends TestCase
     }
 
     /**
-     * @test
+     * @covers \App\Catalog::__construct
      * @covers \App\DirectoryLoader::__construct
      * @covers \App\DirectoryLoader::__invoke
-     * @covers \App\Catalog::__construct
      * @dataProvider dataProviderContentsNoAnyResult
      */
-    public function instanceCanRetrieveFilteredContentsNoAnyResult(string $pattern, int $expected): void
+    public function testInstanceCanRetrieveFilteredContentsNoAnyResult(string $pattern, int $expected): void
     {
         $loader = new DirectoryLoader($pattern);
 
         $catalog = $loader();
 
-        $this->assertInstanceOf(Catalog::class, $catalog);
-        $this->assertCount($expected, $catalog->list);
+        static::assertInstanceOf(Catalog::class, $catalog);
+        static::assertCount($expected, $catalog->list);
     }
 
     public function dataProviderContentsNoAnyResult(): array
@@ -60,21 +62,20 @@ final class DirectoryLoaderTest extends TestCase
     }
 
     /**
-     * @test
-     * @covers \App\DirectoryLoader::__construct
-     * @covers \App\DirectoryLoader::__invoke
      * @covers \App\Catalog::__construct
      * @covers \App\Catalog::add
+     * @covers \App\DirectoryLoader::__construct
+     * @covers \App\DirectoryLoader::__invoke
      * @dataProvider dataProviderContentsMatchedResults
      */
-    public function instanceCanRetrieveFilteredContentsMatchedResults(string $pattern, int $expected): void
+    public function testInstanceCanRetrieveFilteredContentsMatchedResults(string $pattern, int $expected): void
     {
         $loader = new DirectoryLoader($pattern);
 
         $catalog = $loader();
 
-        $this->assertInstanceOf(Catalog::class, $catalog);
-        $this->assertCount($expected, $catalog->list);
+        static::assertInstanceOf(Catalog::class, $catalog);
+        static::assertCount($expected, $catalog->list);
     }
 
     public function dataProviderContentsMatchedResults(): array
@@ -87,23 +88,22 @@ final class DirectoryLoaderTest extends TestCase
     }
 
     /**
-     * @test
-     * @covers \App\DirectoryLoader::__construct
-     * @covers \App\DirectoryLoader::__invoke
      * @covers \App\Catalog::__construct
      * @covers \App\Catalog::add
+     * @covers \App\DirectoryLoader::__construct
+     * @covers \App\DirectoryLoader::__invoke
      * @dataProvider dataProviderCatalogStructure
      */
-    public function instanceReturnsValidCatalog(string $pattern, int $expectedMatches, string $filename): void
+    public function testInstanceReturnsValidCatalog(string $pattern, int $expectedMatches, string $filename): void
     {
         $loader = new DirectoryLoader($pattern);
 
         $catalog = $loader();
 
-        $this->assertInstanceOf(Catalog::class, $catalog);
-        $this->assertCount($expectedMatches, $catalog->list);
-        $this->assertArrayHasKey('path', $catalog->list[0]);
-        $this->assertStringEndsWith($filename, $catalog->list[0]['path']);
+        static::assertInstanceOf(Catalog::class, $catalog);
+        static::assertCount($expectedMatches, $catalog->list);
+        static::assertArrayHasKey('path', $catalog->list[0]);
+        static::assertStringEndsWith($filename, $catalog->list[0]['path']);
     }
 
     public function dataProviderCatalogStructure(): array

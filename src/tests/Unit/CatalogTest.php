@@ -5,6 +5,10 @@ namespace UnitTests;
 use App\Catalog;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 final class CatalogTest extends TestCase
 {
     private Catalog $catalog;
@@ -18,120 +22,114 @@ final class CatalogTest extends TestCase
     }
 
     /**
-     * @test
      * @covers \App\Catalog::__construct
      * @covers \App\Catalog::add
-     * @covers \App\Catalog::setHash
-     * @covers \App\Catalog::setDistance
      * @covers \App\Catalog::set
+     * @covers \App\Catalog::setDistance
+     * @covers \App\Catalog::setHash
      * @dataProvider dataProviderCatalog
      */
-    public function instanceIsConsistent(
+    public function testInstanceIsConsistent(
         array $expectedPaths,
         array $expectedHashes,
         array $expectedDistances
     ): void {
-        $this->assertInstanceOf(Catalog::class, $this->catalog);
-        $this->assertIsArray($this->catalog->list);
-        $this->assertCount(3, $this->catalog->list);
+        static::assertInstanceOf(Catalog::class, $this->catalog);
+        static::assertIsArray($this->catalog->list);
+        static::assertCount(3, $this->catalog->list);
 
         foreach ($this->catalog->list as $entry) {
-            $this->assertArrayHasKey('path', $entry);
-            $this->assertArrayHasKey('hash', $entry);
-            $this->assertArrayHasKey('distance', $entry);
+            static::assertArrayHasKey('path', $entry);
+            static::assertArrayHasKey('hash', $entry);
+            static::assertArrayHasKey('distance', $entry);
         }
     }
 
     /**
-     * @test
      * @covers \App\Catalog::__construct
      * @covers \App\Catalog::add
-     * @covers \App\Catalog::setHash
-     * @covers \App\Catalog::setDistance
      * @covers \App\Catalog::set
+     * @covers \App\Catalog::setDistance
+     * @covers \App\Catalog::setHash
      * @dataProvider dataProviderCatalog
      */
-    public function instanceHasValidPathes(
+    public function testInstanceHasValidPathes(
         array $expectedPaths,
         array $expectedHashes,
         array $expectedDistances
     ): void {
         foreach ($expectedPaths as $key => $expected) {
-            $this->assertEquals($expected, $this->catalog->list[$key]['path']);
+            static::assertSame($expected, $this->catalog->list[$key]['path']);
         }
     }
 
     /**
-     * @test
      * @covers \App\Catalog::__construct
      * @covers \App\Catalog::add
-     * @covers \App\Catalog::setHash
-     * @covers \App\Catalog::setDistance
      * @covers \App\Catalog::set
+     * @covers \App\Catalog::setDistance
+     * @covers \App\Catalog::setHash
      * @dataProvider dataProviderCatalog
      */
-    public function instanceHasValidHashes(
+    public function testInstanceHasValidHashes(
         array $expectedPaths,
         array $expectedHashes,
         array $expectedDistances
     ): void {
         foreach ($expectedHashes as $key => $expected) {
-            $this->assertEquals($expected, $this->catalog->list[$key]['hash']);
+            static::assertSame($expected, $this->catalog->list[$key]['hash']);
         }
     }
 
     /**
-     * @test
      * @covers \App\Catalog::__construct
      * @covers \App\Catalog::add
-     * @covers \App\Catalog::setHash
-     * @covers \App\Catalog::setDistance
      * @covers \App\Catalog::set
+     * @covers \App\Catalog::setDistance
+     * @covers \App\Catalog::setHash
      * @dataProvider dataProviderCatalog
      */
-    public function instanceHashValidDistances(
+    public function testInstanceHashValidDistances(
         array $expectedPaths,
         array $expectedHashes,
         array $expectedDistances
     ): void {
         foreach ($expectedDistances as $key => $expected) {
-            $this->assertEquals($expected, $this->catalog->list[$key]['distance']);
+            static::assertSame($expected, $this->catalog->list[$key]['distance']);
         }
     }
 
     /**
-     * @test
      * @covers \App\Catalog::__construct
      * @covers \App\Catalog::add
-     * @covers \App\Catalog::setHash
-     * @covers \App\Catalog::setDistance
      * @covers \App\Catalog::set
+     * @covers \App\Catalog::setDistance
+     * @covers \App\Catalog::setHash
      * @covers \App\Catalog::sortByDistance
      */
-    public function canBeSortedByDistanceAsc(): void
+    public function testCanBeSortedByDistanceAsc(): void
     {
         $this->catalog->sortByDistance(SORT_ASC);
 
-        $this->assertLessThanOrEqual(
+        static::assertLessThanOrEqual(
             $this->catalog->list[2]['distance'],
             $this->catalog->list[0]['distance']
         );
     }
 
     /**
-     * @test
      * @covers \App\Catalog::__construct
      * @covers \App\Catalog::add
-     * @covers \App\Catalog::setHash
-     * @covers \App\Catalog::setDistance
      * @covers \App\Catalog::set
+     * @covers \App\Catalog::setDistance
+     * @covers \App\Catalog::setHash
      * @covers \App\Catalog::sortByDistance
      */
-    public function canBeSortedByDistanceDesc(): void
+    public function testCanBeSortedByDistanceDesc(): void
     {
         $this->catalog->sortByDistance(SORT_DESC);
 
-        $this->assertGreaterThanOrEqual(
+        static::assertGreaterThanOrEqual(
             $this->catalog->list[2]['distance'],
             $this->catalog->list[0]['distance']
         );
