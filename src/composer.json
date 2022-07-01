@@ -12,6 +12,7 @@
         "brianium/paratest": "^6.5",
         "codedungeon/phpunit-result-printer": "^0.32.0",
         "friendsofphp/php-cs-fixer": "^3.8",
+        "infection/infection": "^0.26.13",
         "phpstan/phpstan": "^1.8",
         "phpunit/phpunit": "^9.5",
         "squizlabs/php_codesniffer": "^3.7"
@@ -29,7 +30,10 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "infection/extension-installer": true
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true

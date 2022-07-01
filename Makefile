@@ -51,19 +51,23 @@ phpcsfixer: ## Runs the PHP-CS-Fixer tool
 phpstan: ## Runs the PHPStan tool
 	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/phpstan analyse --level 5 --memory-limit 1G ./app ./tests"
 
+check: linter phpcs phpcbf phpcsfixer phpstan ## Checks the source code
+
 # TESTING
 
 phpunit: ## Runs the PHPUnit test suite
-	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/phpunit --coverage-text"
-	@echo ''
-
-phpunit-coverage: ## Runs the PHPUnit test suite with FULL coverage analysis
-	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml --coverage-html=coverage"
+	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/phpunit --coverage-text --coverage-xml=./coverage/xml --coverage-html=./coverage/html --log-junit=./coverage/junit.xml"
 	@echo ''
 
 paratest: ## Runs the PHPUnit test suite in parallel
 	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/paratest --parallel-suite --processes=8"
 	@echo ''
+
+infection: ## Runs the Infection tool
+	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/infection --threads=4 --coverage=./coverage"
+	@echo ''
+
+test: phpunit infection ## Runs the Tests Suites
 
 # MISCELANEOUS
 

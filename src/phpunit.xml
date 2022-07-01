@@ -13,6 +13,7 @@
     failOnWarning="true"
     forceCoversAnnotation="true"
     printerClass="Codedungeon\PHPUnitPrettyResultPrinter\Printer"
+    resolveDependencies="true"
     verbose="true"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
