@@ -14,6 +14,7 @@
         "friendsofphp/php-cs-fixer": "^3.8",
         "infection/infection": "^0.26.13",
         "overtrue/phplint": "*",
+        "phpmetrics/phpmetrics": "^2.8",
         "phpstan/phpstan": "^1.8",
         "phpunit/phpunit": "^9.5",
         "squizlabs/php_codesniffer": "^3.7"

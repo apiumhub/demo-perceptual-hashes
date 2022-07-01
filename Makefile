@@ -67,7 +67,10 @@ infection: ## Runs the Infection tool
 	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/infection --threads=4 --coverage=./coverage"
 	@echo ''
 
-test: phpunit infection ## Runs the Tests Suites
+metrics: ## Runs the PHPMetrics tool
+	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/phpmetrics --junit=./coverage/junit.xml --report-html=./metrics ./app"
+
+test: phpunit infection metrics ## Runs the Tests Suites
 
 # MISCELANEOUS
 
