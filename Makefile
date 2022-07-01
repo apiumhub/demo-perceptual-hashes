@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-SERVICE_NAME = php-fpm
+# CONSTANTS - COLORS
 
 ifneq (,$(findstring xterm,${TERM}))
 	YELLOW  := $(shell tput -Txterm setaf 3)
@@ -10,77 +10,55 @@ else
 	RESET   := ""
 endif
 
-TARGET_COLOR := $(YELLOW)
+# CONSTANTS - SERVICE
+
+SERVICE_NAME 		= php-fpm
+
+DOCKER_COMPOSE 		= @docker-compose
+DOCKER_COMPOSE_EXEC = ${DOCKER_COMPOSE} exec ${SERVICE_NAME}
 
 # DOCKER-RELATED COMMANDS
 
-up: ## Starts the service
-	@docker-compose up --remove-orphans -d
-	@docker-compose exec ${SERVICE_NAME} composer update
+build: CMD=build 						## Builds the service
+down: CMD=down 							## Stops the service
+logs: CMD=logs ${SERVICE_NAME} 			## Exposes the service logs
+restart: CMD=restart ${SERVICE_NAME} 	## Restarts the service
+up: CMD=up --remove-orphans -d 			## Starts the service
+bash: CMD=bash 							## Opens a Bash terminal with main service
 
-down: ## Stops the service
-	@docker-compose down
+build down logs restart up:
+	${DOCKER_COMPOSE} ${CMD}
 
-build: ## Builds the service
-	@docker-compose build
+# ADDITIONAL COMMANDS
 
-restart: ## Restarts the service
-	@docker-compose restart ${SERVICE_NAME}
+qa-linter: CMD=./vendor/bin/parallel-lint -e php -j 10 --colors ./app ./tests
+qa-phpcbf: CMD=./vendor/bin/phpcbf --standard=PSR12 ./app ./tests
+qa-phpcs: CMD=./vendor/bin/phpcs --standard=PSR12 ./app ./tests
+qa-phpstan: CMD=./vendor/bin/phpstan analyse --level 5 --memory-limit 1G ./app ./tests
+qa-phpcsfixer: CMD=./vendor/bin/php-cs-fixer fix --config .php-cs-fixer.php
+tests-phpunit: CMD=./vendor/bin/phpunit --coverage-text --coverage-xml=./coverage/xml --coverage-html=./coverage/html --log-junit=./coverage/junit.xml
+tests-paratest: CMD=./vendor/bin/paratest --parallel-suite --processes=8
+tests-infection: CMD=./vendor/bin/infection --threads=4 --coverage=./coverage
+metrics-phpmetrics: CMD=./vendor/bin/phpmetrics --junit=./coverage/junit.xml --report-html=./metrics ./app
 
-logs: ## Exposes logs from service
-	@docker-compose logs ${SERVICE_NAME}
+bash qa-linter qa-phpcbf qa-phpcs qa-phpstan qa-phpcsfixer tests-phpunit tests-paratest tests-infection metrics-phpmetrics:
+	${DOCKER_COMPOSE_EXEC} ${CMD}
 
-bash: ## Opens a Bash terminal with main service
-	@docker-compose exec ${SERVICE_NAME} bash
+# SHORTCUTS
 
-# QA
+qa: qa-linter qa-phpcs qa-phpcbf qa-phpcsfixer qa-phpstan ## Checks the source code
+tests: tests-phpunit tests-infection ## Runs the Tests Suites
+metrics: metrics-phpmetrics ## Generates a report with some metrics
 
-linter: ## Runs the PHP linter tool
-	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/phplint --extensions=php --jobs=8 --no-cache ./app ./tests"
-
-phpcs: ## Runs the PHPCodeSniffer tool
-	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/phpcs --standard=PSR12 ./app ./tests"
-
-phpcbf: ## Runs the PHPCodeBeautifierAndFixer tool
-	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/phpcbf --standard=PSR12 ./app ./tests"
-
-phpcsfixer: ## Runs the PHP-CS-Fixer tool
-	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/php-cs-fixer fix /code/app --rules=@PSR12"
-	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/php-cs-fixer fix /code/tests --rules=@PSR12"
-
-phpstan: ## Runs the PHPStan tool
-	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/phpstan analyse --level 5 --memory-limit 1G ./app ./tests"
-
-check: linter phpcs phpcbf phpcsfixer phpstan ## Checks the source code
-
-# TESTING
-
-phpunit: ## Runs the PHPUnit test suite
-	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/phpunit --coverage-text --coverage-xml=./coverage/xml --coverage-html=./coverage/html --log-junit=./coverage/junit.xml"
-	@echo ''
-
-paratest: ## Runs the PHPUnit test suite in parallel
-	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/paratest --parallel-suite --processes=8"
-	@echo ''
-
-infection: ## Runs the Infection tool
-	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/infection --threads=4 --coverage=./coverage"
-	@echo ''
-
-metrics: ## Runs the PHPMetrics tool
-	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/phpmetrics --junit=./coverage/junit.xml --report-html=./metrics ./app"
-
-test: phpunit infection metrics ## Runs the Tests Suites
-
-# MISCELANEOUS
+# HELP
 
 help:
 	@clear
 	@echo "╔══════════════════════════════════════════════════════════════════════════════╗"
 	@echo "║                                                                              ║"
-	@echo "║                           ${TARGET_COLOR}.:${RESET} AVAILABLE COMMANDS ${TARGET_COLOR}:.${RESET}                           ║"
+	@echo "║                           ${YELLOW}.:${RESET} AVAILABLE COMMANDS ${YELLOW}:.${RESET}                           ║"
 	@echo "║                                                                              ║"
 	@echo "╚══════════════════════════════════════════════════════════════════════════════╝"
 	@echo ""
-	@grep -E '^[a-zA-Z_0-9%-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "· ${TARGET_COLOR}%-30s${RESET} %s\n", $$1, $$2}'
+	@grep -E '^[a-zA-Z_0-9%-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "· ${YELLOW}%-30s${RESET} %s\n", $$1, $$2}'
 	@echo ""
