@@ -54,11 +54,16 @@ phpstan: ## Runs the PHPStan tool
 # TESTING
 
 phpunit: ## Runs the PHPUnit test suite
-	#@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml --coverage-html=coverage"
 	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/phpunit --coverage-text"
+	@echo ''
+
+phpunit-coverage: ## Runs the PHPUnit test suite with FULL coverage analysis
+	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml --coverage-html=coverage"
+	@echo ''
 
 paratest: ## Runs the PHPUnit test suite in parallel
 	@docker-compose exec ${SERVICE_NAME} bash -c "./vendor/bin/paratest --parallel-suite --processes=8"
+	@echo ''
 
 # MISCELANEOUS
 
