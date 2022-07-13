@@ -98,3 +98,21 @@ La aplicación cuenta con un Makefile que contiene todos los comandos útiles pa
 ```bash
 ~demos/perceptual-hashes$ make down
 ```
+
+## Vulnerabilidades de Securidad
+
+Por favor revise nuestra política de seguridad sobe cómo reportar vulnerabilidades:
+
+**POR FAVOR, NO COMUNIQUE DE MANERA PÚBLICA ERRORES DE SEGURIDAD**
+
+### Versiones Soportadas
+
+Sólo las últimas versiones estables reciben parches de seguridad.
+
+### Reportando una Vulnerabilidad
+
+Si descubre una vulnerabilidad de seguridad en este projecto, por favor [abra un ticket aquí](https://github.com/apiumhub/demo-perceptual-hashes/issues). Todas las vulnerabilidades de seguridad serán atendidas de inmediato.
+
+## Licencia de Uso
+
+Esta aplicación es un software de código abierto sujecto a las condiciones de la licencia [The Unlicense](https://github.com/apiumhub/demo-perceptual-hashes/main/LICENSE).
