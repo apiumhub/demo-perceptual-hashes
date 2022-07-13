@@ -7,13 +7,13 @@
 
 ## Qué son los Perceptual Hashes
 
-Para obtener más información sobre los Perceptual Hashes, también llamados p-Hashes, puede consultar la entrada [Introduction to Perceptual Hashes - Measuring similarity](https://apiumhub.com/tech-blog-barcelona/xxxxxxxxxx/) de nuestro blog que trata precisamente de este tema.
+Para obtener más información sobre los Perceptual Hashes, también llamados p-Hashes, puede consultar la entrada [Introducción A Los Hashes Perceptivos: Medición De La Similitud](https://apiumhub.com/es/tech-blog-barcelona/introduccion-hashes-perceptivos-medicion-de-la-similitud/) de nuestro blog que trata precisamente de este tema.
 
 ## Sobre esta aplicación
 
-> Esta aplicación es una prueba de concepto que demuestra cómo aplicar p-Hashes para mejorar los procesos de búsqueda de un ecommerce.
->
-> Debe ser considerada como una PoC a título informativo y-o educativo.
+Esta aplicación es una prueba de concepto que demuestra cómo aplicar p-Hashes para mejorar los procesos de búsqueda de un ecommerce.
+
+> Por tanto, esta aplicación debe ser considerada una demostración a título educativo y nunca debería usarse en entornos de producción.
 
 ### Caso de Uso
 
