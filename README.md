@@ -115,4 +115,4 @@ Si descubre una vulnerabilidad de seguridad en este projecto, por favor [abra un
 
 ## Licencia de Uso
 
-Esta aplicación es un software de código abierto sujecto a las condiciones de la licencia [The Unlicense](https://github.com/apiumhub/demo-perceptual-hashes/main/LICENSE).
+Esta aplicación es un software de código abierto sujecto a las condiciones de la licencia [The Unlicense](https://github.com/apiumhub/demo-perceptual-hashes/blob/main/LICENSE).
